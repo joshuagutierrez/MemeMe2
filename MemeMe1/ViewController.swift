@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
 
     @IBOutlet weak var imagePickerView: UIImageView!
     
@@ -17,16 +17,41 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     @IBOutlet weak var bottomTextField: UITextField!
     override func viewWillAppear(_ animated: Bool) {
-        cameraButton.isEnabled = UIImagePickerController.isSourceTypeAvailable(.camera)
+//        cameraButton.isEnabled = UIImagePickerController.isSourceTypeAvailable(.camera)
+        
+//#if targetEnvironment(simulator)
+//    cameraButton.isEnabled = false;
+//#else
+//    cameraButton.isEnabled = true;
+//#endif
 
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+       
+        topTextField.delegate = self
+        bottomTextField.delegate = self
+        
         topTextField.text = "TOP"
         bottomTextField.text = "BOTTOM"
+        
+        topTextField.textAlignment = .center
+        bottomTextField.textAlignment = .center
     }
+    
+
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        if textField.text == "TOP" {
+         textField.text = ""
+    }
+        if textField.text == "BOTTOM" {
+         textField.text = ""
+    }
+    }
+    
+  
     
 
 
