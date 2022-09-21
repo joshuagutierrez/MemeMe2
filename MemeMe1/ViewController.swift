@@ -13,28 +13,43 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     @IBOutlet weak var cameraButton: UIBarButtonItem!
     
+    @IBOutlet weak var shareButton: UIBarButtonItem!
+    
     @IBOutlet weak var topTextField: UITextField!
     
     @IBOutlet weak var bottomTextField: UITextField!
     
+    @IBOutlet weak var toolbar: UIToolbar!
+    @IBOutlet weak var navigationToolbar: UIToolbar!
+    
+    var memedImage: UIImage!
+    
+    struct Meme {
+        var topText: String
+        var bottomText: String
+        var originalImage: UIImage
+        var memedImage: UIImage
+    }
+    
     let memeTextAttributes: [NSAttributedString.Key: Any] = [
-        NSAttributedString.Key.strokeColor: UIColor(named: "black"),
-        NSAttributedString.Key.foregroundColor: UIColor(named: "white"),
+        NSAttributedString.Key.strokeColor: UIColor.black,
+        NSAttributedString.Key.foregroundColor: UIColor.white,
         NSAttributedString.Key.font: UIFont(name: "HelveticaNeue-CondensedBlack", size: 40)!,
-        NSAttributedString.Key.strokeWidth:  3
+        NSAttributedString.Key.strokeWidth:  -3.0
     ]
     
     
     override func viewWillAppear(_ animated: Bool) {
 //        cameraButton.isEnabled = UIImagePickerController.isSourceTypeAvailable(.camera)
         
-//#if targetEnvironment(simulator)
-//    cameraButton.isEnabled = false;
-//#else
-//    cameraButton.isEnabled = true;
-//#endif
         super.viewWillAppear(animated)
         subscribeToKeyboardNotifications()
+        
+        #if targetEnvironment(simulator)
+            cameraButton.isEnabled = false;
+        #else
+            cameraButton.isEnabled = true;
+        #endif
 
     }
     
@@ -52,11 +67,15 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         topTextField.text = "TOP"
         bottomTextField.text = "BOTTOM"
         
-        topTextField.textAlignment = .center
-        bottomTextField.textAlignment = .center
+        //disable share button until the image was picked
+        shareButton.isEnabled = false
         
+
         topTextField.defaultTextAttributes = memeTextAttributes
         bottomTextField.defaultTextAttributes = memeTextAttributes
+        
+        topTextField.textAlignment = .center
+        bottomTextField.textAlignment = .center
     }
     
 
@@ -106,6 +125,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         }
         
         dismiss(animated: true, completion: nil)
+        
+        //enables share button once user selects photo
+        shareButton.isEnabled = true
     }
     
     @objc func keyboardWillShow(_ notification: Notification) {
@@ -131,7 +153,43 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
+    
+    func generateMemedImage() -> UIImage {
 
+        self.toolbar.isHidden = true
+        self.navigationToolbar.isHidden = true
+        
+        // Render view to an image
+        UIGraphicsBeginImageContext(self.view.frame.size)
+        view.drawHierarchy(in: self.view.frame, afterScreenUpdates: true)
+        let memedImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+
+        self.toolbar.isHidden = false
+        self.navigationToolbar.isHidden = false
+        return memedImage
+    }
+    
+    func save() {
+            // Create the meme
+            let meme = Meme(topText: topTextField.text!, bottomText: bottomTextField.text!, originalImage: imagePickerView.image!, memedImage: memedImage)
+    }
+
+    @IBAction func shareMeme(_ sender: Any) {
+        let image = generateMemedImage()
+        let controller = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+        present(controller, animated: true, completion: nil)
+        
+        //save Meme
+        
+        controller.completionWithItemsHandler = { [self]
+        activity, completed, items, error in if completed {
+        _ = (topText: self.topTextField.text! as NSString?, bottomText: self.bottomTextField.text! as NSString?, image: self.imagePickerView.image, memedImage: memedImage)
+        self.dismiss(animated: true, completion: nil)
+        }
+        }
+        
+    }
     
     
 }
