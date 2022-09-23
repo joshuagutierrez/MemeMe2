@@ -46,9 +46,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         subscribeToKeyboardNotifications()
         
         #if targetEnvironment(simulator)
-            cameraButton.isEnabled = false;
+            cameraButton.isEnabled = false
         #else
-            cameraButton.isEnabled = true;
+            cameraButton.isEnabled = true
         #endif
 
     }
@@ -60,22 +60,19 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       
-        topTextField.delegate = self
-        bottomTextField.delegate = self
-        
-        topTextField.text = "TOP"
-        bottomTextField.text = "BOTTOM"
+        setupTextField(textField: topTextField, text: "TOP")
+        setupTextField(textField: bottomTextField, text: "BOTTOM")
         
         //disable share button until the image was picked
         shareButton.isEnabled = false
-        
-
-        topTextField.defaultTextAttributes = memeTextAttributes
-        bottomTextField.defaultTextAttributes = memeTextAttributes
-        
-        topTextField.textAlignment = .center
-        bottomTextField.textAlignment = .center
+    }
+    
+    func setupTextField(textField: UITextField, text: String) {
+        //setting defaults for text field
+        textField.delegate = self
+        textField.defaultTextAttributes = memeTextAttributes
+        textField.textAlignment = .center
+        textField.text = text
     }
     
 
@@ -90,28 +87,25 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        resignFirstResponder()
+        textField.resignFirstResponder()
+        return true
     }
     
   
-    
+    func pickImage(source: UIImagePickerController.SourceType) {
+        let pickerController = UIImagePickerController()
+        pickerController.delegate = self
+        pickerController.sourceType = source
+        present(pickerController, animated: true, completion: nil)
+    }
 
 
     @IBAction func pickAnImage(_ sender:Any) {
-
-        let pickerController = UIImagePickerController()
-        pickerController.delegate = self
-        pickerController.sourceType = .photoLibrary
-        present(pickerController, animated: true, completion: nil)
-
+        pickImage(source: .photoLibrary)
     }
 
     @IBAction func pickAnImageFromCamera(_ sender: Any) {
-        
-        let pickerController = UIImagePickerController()
-        pickerController.delegate = self
-        pickerController.sourceType = .camera
-        present(pickerController, animated: true, completion: nil)
+        pickImage(source: .camera)
     }
     
 //    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
@@ -131,7 +125,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     @objc func keyboardWillShow(_ notification: Notification) {
-        view.frame.origin.y = -getKeyboardHeight(notification)
+        if bottomTextField.isFirstResponder {
+            view.frame.origin.y = -getKeyboardHeight(notification)
+        }
     }
     
     @objc func keyboardWillHide(_ notification: Notification) {
@@ -183,7 +179,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         //save Meme
         
         controller.completionWithItemsHandler = { [self]
-        activity, completed, items, error in if completed {
+        _, completed, _, _ in if completed {
         _ = (topText: self.topTextField.text! as NSString?, bottomText: self.bottomTextField.text! as NSString?, image: self.imagePickerView.image, memedImage: memedImage)
         self.dismiss(animated: true, completion: nil)
         }
