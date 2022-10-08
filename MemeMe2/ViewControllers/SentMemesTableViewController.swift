@@ -17,6 +17,11 @@ class SentMemesTableViewController: UIViewController, UITableViewDataSource, UIT
         return appDelegate.memes
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupNavigationBar()
+    }
+    
     // Setup navigation bar
     private func setupNavigationBar() {
         navigationController?.isNavigationBarHidden = false
