@@ -1,6 +1,6 @@
 //
 //  ViewController.swift
-//  MemeMe1
+//  MemeMe2
 //
 //  Created by Josh Gutierrez on 9/19/22.
 //
@@ -24,12 +24,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     var memedImage: UIImage!
     
-    struct Meme {
-        var topText: String
-        var bottomText: String
-        var originalImage: UIImage
-        var memedImage: UIImage
-    }
+
     
     let memeTextAttributes: [NSAttributedString.Key: Any] = [
         NSAttributedString.Key.strokeColor: UIColor.black,
@@ -167,20 +162,30 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     func save() {
-            // Create the meme
-            let meme = Meme(topText: topTextField.text!, bottomText: bottomTextField.text!, originalImage: imagePickerView.image!, memedImage: memedImage)
+        // Create the meme
+        let meme = Meme(topText: topTextField.text!, bottomText: bottomTextField.text!, originalImage: imagePickerView.image!, memedImage: generateMemedImage())
+        
+        // add it to the memes array on the app delegate
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        appDelegate.memes.append(meme)
     }
 
     @IBAction func shareMeme(_ sender: Any) {
+        // generate meme image
         let image = generateMemedImage()
+        //define activity controller, pass it memedImage
         let controller = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+        //present ActivityViewController
         present(controller, animated: true, completion: nil)
         
         //save Meme
         
         controller.completionWithItemsHandler = { [self]
         _, completed, _, _ in if completed {
+            
         _ = (topText: self.topTextField.text! as NSString?, bottomText: self.bottomTextField.text! as NSString?, image: self.imagePickerView.image, memedImage: memedImage)
+        //save the image after the user shares the image
+        self.save()
         self.dismiss(animated: true, completion: nil)
         }
         }

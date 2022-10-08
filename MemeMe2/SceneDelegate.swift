@@ -1,6 +1,6 @@
 //
 //  SceneDelegate.swift
-//  MemeMe1
+//  MemeMe2
 //
 //  Created by Josh Gutierrez on 9/19/22.
 //
