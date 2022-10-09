@@ -118,32 +118,39 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="SentMemesTableViewCell" id="ixu-iQ-n12" customClass="SentMemesTableViewCell" customModule="MemeMe2" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="50" width="390" height="43.666667938232422"/>
+                                <rect key="frame" x="0.0" y="50" width="390" height="89.333335876464844"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ixu-iQ-n12" id="Nu8-b5-yu6">
-                                    <rect key="frame" x="0.0" y="0.0" width="390" height="43.666667938232422"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="390" height="89.333335876464844"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Cak-MU-dOI">
-                                            <rect key="frame" x="20" y="-10" width="50" height="63.666666666666664"/>
+                                            <rect key="frame" x="20" y="0.0" width="50" height="100.33333333333333"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="50" id="24b-31-uVE"/>
+                                                <constraint firstAttribute="height" constant="100" id="7jb-fm-PLP"/>
                                             </constraints>
                                         </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qDg-wk-RgE">
-                                            <rect key="frame" x="174" y="11" width="42" height="21"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qDg-wk-RgE">
+                                            <rect key="frame" x="125" y="34.333333333333336" width="140" height="21"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="140" id="b68-KB-wPI"/>
+                                            </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="Cak-MU-dOI" firstAttribute="top" secondItem="Nu8-b5-yu6" secondAttribute="top" constant="-10" id="2lo-IA-UG1"/>
-                                        <constraint firstAttribute="bottom" secondItem="Cak-MU-dOI" secondAttribute="bottom" constant="-10" id="Cza-UJ-QZZ"/>
+                                        <constraint firstAttribute="bottom" secondItem="Cak-MU-dOI" secondAttribute="bottom" constant="-11" id="6oq-xb-8nV"/>
+                                        <constraint firstItem="Cak-MU-dOI" firstAttribute="top" secondItem="Nu8-b5-yu6" secondAttribute="topMargin" constant="-11" id="Nwz-al-1Lm"/>
                                         <constraint firstItem="Cak-MU-dOI" firstAttribute="leading" secondItem="Nu8-b5-yu6" secondAttribute="leading" constant="20" id="i3U-hH-XDW"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <constraints>
+                                    <constraint firstItem="qDg-wk-RgE" firstAttribute="centerX" secondItem="ixu-iQ-n12" secondAttribute="centerX" id="31y-2G-w4E"/>
+                                    <constraint firstItem="qDg-wk-RgE" firstAttribute="centerY" secondItem="ixu-iQ-n12" secondAttribute="centerY" id="pjq-Yl-2to"/>
+                                </constraints>
                                 <connections>
                                     <outlet property="memeImageView" destination="Cak-MU-dOI" id="J8s-FG-xHe"/>
                                     <outlet property="memeLabel" destination="qDg-wk-RgE" id="DWa-I9-rrR"/>
@@ -156,6 +163,9 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="fjz-3D-XVR"/>
+                    <connections>
+                        <outlet property="tableView" destination="Pw8-Nj-30i" id="FzX-eF-T5W"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pTV-K7-TN5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

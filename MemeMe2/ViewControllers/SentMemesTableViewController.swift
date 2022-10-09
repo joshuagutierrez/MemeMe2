@@ -9,6 +9,7 @@ import UIKit
 
 class SentMemesTableViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
+    @IBOutlet var tableView: UITableView!
     // MARK: Memes model
     
     var memes: [Meme]! {
@@ -20,6 +21,11 @@ class SentMemesTableViewController: UIViewController, UITableViewDataSource, UIT
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
     }
     
     // Setup navigation bar
@@ -43,16 +49,22 @@ class SentMemesTableViewController: UIViewController, UITableViewDataSource, UIT
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SentMemesTableViewCell", for: indexPath) as! SentMemesTableViewCell
+        
+        let meme = memes[indexPath.row]
+        cell.memeLabel?.text = (meme.topText ?? "") + (meme.bottomText ?? "")
+        cell.memeImageView?.image = meme.memedImage
+        
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // TODO: present a detailVC
+        
+//        guard let detailController = storyboard!.instantiateViewController(withIdentifier: "MemeDetailViewController") as? MemeDetailViewController else { return }
+//
+//        detailController.meme = memes[indexPath.row]
+//        navigationController?.pushViewController(detailController, animated: true)
+//    }
     }
     
-    
-
-
-
-
 }
