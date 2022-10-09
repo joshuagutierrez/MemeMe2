@@ -60,11 +60,18 @@ class SentMemesTableViewController: UIViewController, UITableViewDataSource, UIT
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // TODO: present a detailVC
         
-//        guard let detailController = storyboard!.instantiateViewController(withIdentifier: "MemeDetailViewController") as? MemeDetailViewController else { return }
-//
-//        detailController.meme = memes[indexPath.row]
-//        navigationController?.pushViewController(detailController, animated: true)
-//    }
+        guard let detailController = storyboard!.instantiateViewController(withIdentifier: "MemeDetailVC") as? MemeDetailVC else { return }
+
+        detailController.meme = memes[indexPath.row]
+        navigationController?.pushViewController(detailController, animated: true)
     }
+    
+    // MARK: Segue
+    
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        //Notice that this code works for both Scissors and Paper
+//        let controller = segue.destination as! ResultViewController
+//        controller.match = self.match
+//    }
     
 }

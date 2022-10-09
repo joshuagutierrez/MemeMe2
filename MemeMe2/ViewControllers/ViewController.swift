@@ -22,6 +22,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet weak var toolbar: UIToolbar!
     @IBOutlet weak var navigationToolbar: UIToolbar!
     
+    @IBAction func cancelPressed(_ sender: Any) {
+        navigationController?.popViewController(animated: false)
+    }
     var memedImage: UIImage!
     
 
@@ -186,6 +189,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         _ = (topText: self.topTextField.text! as NSString?, bottomText: self.bottomTextField.text! as NSString?, image: self.imagePickerView.image, memedImage: memedImage)
         //save the image after the user shares the image
         self.save()
+        // pop to root (aka table view)
+        self.navigationController?.popToRootViewController(animated: true)
         self.dismiss(animated: true, completion: nil)
         }
         }
